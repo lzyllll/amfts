@@ -1,0 +1,40 @@
+{
+    "name": "amf-ts",
+    "version": "1.0.0",
+    "description": "AMF3 implementation for browser and nodejs in TypeScript",
+    "type": "module",
+    "main": "dist/amf.umd.js",
+    "module": "dist/amf.mjs",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/amf.mjs",
+            "require": "./dist/amf.umd.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "files": [
+        "dist",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "test": "ts-node test/test.ts",
+        "prepublishOnly": "npm run build"
+    },
+    "keywords": [
+        "amf",
+        "amf3",
+        "actionscript",
+        "typescript"
+    ],
+    "author": "lzyllll",
+    "license": "ISC",
+    "devDependencies": {
+        "ts-node": "^10.0.0",
+        "typescript": "^5.0.0",
+        "vite": "^5.0.0",
+        "vite-plugin-dts": "^3.0.0"
+    }
+}

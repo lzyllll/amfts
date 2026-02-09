@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMF-TS Browser Demo</title>
+    <script src="../dist/amf.umd.js"></script>
+</head>
+
+<body>
+    <h1>AMF-TS Encoding/Decoding Demo</h1>
+    <div id="output" style="font-family: monospace; white-space: pre-wrap; background: #f0f0f0; padding: 10px;"></div>
+
+    <script>
+        console.log('AMF Library:', window.AMF);
+
+        const { AMFEncoder, AMFDecoder } = window.AMF;
+
+        const output = document.getElementById('output');
+        function log(msg) {
+            output.textContent += msg + '\n';
+        }
+
+        try {
+            const data = {
+                message: "Hello from Browser!",
+                timestamp: new Date(),
+                values: [1, 2, 3.14, "AMF3"]
+            };
+
+            log("Original Data: " + JSON.stringify(data, null, 2));
+
+            log("\n--- Encoding ---");
+            const encoder = new AMFEncoder();
+            encoder.writeObject(data);
+            const buffer = encoder.getBuffer();
+            log(`Encoded ${buffer.byteLength} bytes.`);
+
+            log("\n--- Decoding ---");
+            const decoder = new AMFDecoder(buffer);
+            const result = decoder.decode();
+            log("Decoded Data: " + JSON.stringify(result, null, 2));
+
+            if (result.message === data.message) {
+                log("\nSUCCESS: Data integrity verified!");
+            } else {
+                log("\nERROR: Data mismatch!");
+            }
+
+        } catch (e) {
+            log("\nError: " + e.message);
+            console.error(e);
+        }
+    </script>
+</body>
+
+</html>
