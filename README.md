@@ -1,13 +1,24 @@
-## AMF.js (TypeScript / Browser)
+## AMF.js (TypeScript)
 
-一个面向浏览器环境的 AMF 序列化库实现，当前编码器/解码器聚焦 **AMF3**。
+一个基于 TypeScript 的 AMF 序列化库，支持 **浏览器** 和 **Node.js** 环境，当前编码器/解码器聚焦 **AMF3**。
 
-## 当前实现范围
+## 特性
 
 - `AMFEncoder` / `AMFDecoder`：AMF3 编解码
-- 浏览器可用：基于 `Uint8Array`、`DataView`、`TextEncoder`、`TextDecoder`
+- **跨平台**：基于 `Uint8Array`、`DataView`、`TextEncoder`、`TextDecoder`，浏览器和 Node.js 11+ 均可使用
 - 支持引用表（字符串/对象/Trait）、动态对象、`Externalizable`、`ByteArray`
 - 不依赖 Node.js `Buffer` 或 Node Stream
+
+## 安装
+
+```bash
+npm install amf-ts
+```
+
+或者本地安装：
+```bash
+npm install /path/to/amf-ts-1.0.0.tgz
+```
 
 ## 目录说明
 
@@ -49,8 +60,7 @@ console.log(result.msg, result.arr[1]);
 继承 `Serializable` 后，可带 `__class` 输出命名对象。
 
 ```ts
-import { Serializable } from './src/classes';
-import { AMFEncoder } from './src/encoder';
+import { Serializable, AMFEncoder } from 'amf-ts';
 
 class User extends Serializable {
   name: string;
@@ -74,9 +84,7 @@ encoder.writeObject(new User('tom', 18));
 适用于你想完全控制编码/解码格式的场景。
 
 ```ts
-import { Externalizable } from './src/classes';
-import { AMFEncoder } from './src/encoder';
-import { AMFDecoder } from './src/decoder';
+import { Externalizable, AMFEncoder, AMFDecoder } from 'amf-ts';
 
 class CustomData extends Externalizable {
   value: number;
@@ -105,18 +113,33 @@ AMFDecoder.register('demo.CustomData', CustomData);
 当你想覆盖自动推断类型时可使用 `ForcedTypeValue`。
 
 ```ts
-import { AMF3 } from './src/types';
-import { ForcedTypeValue } from './src/classes';
-import { AMFEncoder } from './src/encoder';
+import { AMF3, ForcedTypeValue, AMFEncoder } from 'amf-ts';
 
 const encoder = new AMFEncoder();
 encoder.writeObject(new ForcedTypeValue(1, AMF3.DOUBLE));
 ```
 
-## 编译示例
+## 浏览器使用
 
-项目当前是 TypeScript 源码，你可以按需编译：
+```html
+<script src="dist/amf.umd.js"></script>
+<script>
+  const { AMFEncoder, AMFDecoder } = window.AMF;
+  
+  const encoder = new AMFEncoder();
+  encoder.writeObject({ hello: 'world' });
+  console.log(encoder.getBuffer());
+</script>
+```
+
+## 构建
 
 ```bash
-npx tsc --target ES2017 --module commonjs --outDir dist src/*.ts
+npm install
+npm run build
 ```
+
+输出文件：
+- `dist/amf.umd.js` - 浏览器 script 标签使用
+- `dist/amf.mjs` - ES Module
+- `dist/index.d.ts` - TypeScript 类型定义
