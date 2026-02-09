@@ -79,6 +79,32 @@ encoder.writeObject(new User('tom', 18));
 
 如果你实现了 `getSerializableFields()`，会优先按该字段列表输出；`__` 前缀字段会被忽略。
 
+```ts
+import { Serializable, AMFEncoder } from 'amf-ts';
+
+class User extends Serializable {
+  name: string;
+  age: number;
+  password: string;  // 敏感字段，不想序列化
+
+  constructor(name: string, age: number, password: string) {
+    super('demo.User');
+    this.name = name;
+    this.age = age;
+    this.password = password;
+  }
+
+  // 只序列化 name 和 age，忽略 password
+  getSerializableFields(): string[] {
+    return ['name', 'age'];
+  }
+}
+
+const encoder = new AMFEncoder();
+encoder.writeObject(new User('tom', 18, 'secret123'));
+// 输出只包含 name 和 age，不包含 password
+```
+
 ## Externalizable 对象
 
 适用于你想完全控制编码/解码格式的场景。
