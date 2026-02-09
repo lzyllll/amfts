@@ -108,6 +108,8 @@ export class AMFDecoder extends Reader {
 
     /**
      * 读取 AMF3 字符串
+     * 
+     * todo 字符串过长时，u29 不
      */
     private readAMF3String(): string {
         const header = this.readAMFHeader();

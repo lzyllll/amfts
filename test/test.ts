@@ -94,4 +94,59 @@ assert(decodedUser.age === 18, 'User age matches');
 // 检查是否带有类型信息 (假设库保留了类型别名或者还原了类)
 // assert(decodedUser.__class === 'demo.User', 'Class alias matches'); // 取决于实现细节
 
+// 3. 匿名静态对象测试（__class 为空但 __dynamic 为 false）
+console.log('\n--- Testing Anonymous Static Object ---');
+
+// 方式1: 使用 Serializable 构造函数
+const staticObj1 = new Serializable('');
+(staticObj1 as any).__dynamic = false;
+(staticObj1 as any).name = 'static1';
+(staticObj1 as any).value = 42;
+
+const encStatic1 = new AMFEncoder();
+encStatic1.writeObject(staticObj1);
+const staticBytes1 = encStatic1.getBuffer();
+console.log(`Static object 1 encoded: ${staticBytes1.byteLength} bytes`);
+
+const decStatic1 = new AMFDecoder(staticBytes1);
+const decodedStatic1 = decStatic1.decode();
+console.log('Decoded static object 1:', decodedStatic1);
+assert(decodedStatic1.name === 'static1', 'Static obj1 name matches');
+assert(decodedStatic1.value === 42, 'Static obj1 value matches');
+
+// 方式2: 普通对象设置 __dynamic = false
+const staticObj2 = {
+    name: 'static2',
+    count: 100,
+    __dynamic: false
+};
+
+const encStatic2 = new AMFEncoder();
+encStatic2.writeObject(staticObj2);
+const staticBytes2 = encStatic2.getBuffer();
+console.log(`Static object 2 encoded: ${staticBytes2.byteLength} bytes`);
+
+const decStatic2 = new AMFDecoder(staticBytes2);
+const decodedStatic2 = decStatic2.decode();
+console.log('Decoded static object 2:', decodedStatic2);
+assert(decodedStatic2.name === 'static2', 'Static obj2 name matches');
+assert(decodedStatic2.count === 100, 'Static obj2 count matches');
+
+// 对比：动态对象（默认行为）
+const dynamicObj = {
+    name: 'dynamic',
+    count: 200
+};
+
+const encDynamic = new AMFEncoder();
+encDynamic.writeObject(dynamicObj);
+const dynamicBytes = encDynamic.getBuffer();
+console.log(`Dynamic object encoded: ${dynamicBytes.byteLength} bytes`);
+
+const decDynamic = new AMFDecoder(dynamicBytes);
+const decodedDynamic = decDynamic.decode();
+console.log('Decoded dynamic object:', decodedDynamic);
+assert(decodedDynamic.name === 'dynamic', 'Dynamic obj name matches');
+assert(decodedDynamic.count === 200, 'Dynamic obj count matches');
+
 console.log('\nAll tests passed successfully!');

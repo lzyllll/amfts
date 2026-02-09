@@ -105,6 +105,31 @@ encoder.writeObject(new User('tom', 18, 'secret123'));
 // 输出只包含 name 和 age，不包含 password
 ```
 
+## 动态/静态编码控制
+
+通过 `__dynamic` 属性控制对象的编码方式：
+
+| `__class` | `__dynamic` | 编码方式 |
+|-----------|-------------|----------|
+| 有值 | 任意 | 静态（先写 keys，再写 values） |
+| 空/无 | `false` | 静态 |
+| 空/无 | `true`/`undefined` | 动态（key-value 交替） |
+
+```ts
+import { Serializable, AMFEncoder } from 'amf-ts';
+
+// 匿名动态对象（默认行为）
+const obj1 = new Serializable();
+obj1.name = 'test';
+
+// 匿名静态对象
+const obj2 = new Serializable('', false);
+obj2.name = 'test';
+
+// 或者直接设置属性
+const obj3 = { name: 'test', __dynamic: false };
+```
+
 ## Externalizable 对象
 
 适用于你想完全控制编码/解码格式的场景。

@@ -177,8 +177,11 @@ export class AMFEncoder extends Writer {
      * 写入 AMF3 对象
      */
     private writeObjectValue(value: Record<string, any>): void {
-        // 匿名对象按“动态对象”编码
-        if (!value.__class || value.__class === '') {
+        // 判断是否按动态对象编码
+        // __dynamic 为 false 时强制静态编码，否则无 __class 时为动态
+        const isDynamic = value.__dynamic !== false && !value.__class;
+
+        if (isDynamic) {
             this.writeInt29(0x0b);
             this.writeInt29(0x01);
 
@@ -188,13 +191,14 @@ export class AMFEncoder extends Writer {
                 if (key.indexOf('__') === 0) {
                     continue;
                 }
+                //key和value交替写入
                 this.writeInlineString(key);
                 this.encodeValue(value[key]);
             }
             this.writeInlineString('');
             return;
         }
-
+        // 静态编码
         const externalizable = value instanceof Externalizable;
         const keys = externalizable ? [] : getSerializableKeys(value);
 
@@ -203,16 +207,17 @@ export class AMFEncoder extends Writer {
         header = (header | 2) | 1;
 
         this.writeInt29(header);
-        this.writeInlineString(value.__class);
+        this.writeInlineString(value.__class || '');
 
         if (externalizable) {
             (value as Externalizable).write(this);
             return;
         }
-
+        // key
         for (let i = 0; i < keys.length; i++) {
             this.writeInlineString(keys[i]);
         }
+        // value
         for (let i = 0; i < keys.length; i++) {
             this.encodeValue(value[keys[i]]);
         }

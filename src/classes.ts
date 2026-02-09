@@ -118,12 +118,21 @@ export class Serializable {
     public __class?: string;
 
     /**
+     * 是否为动态对象
+     * - true 或 undefined: 动态编码（key-value 交替写入）
+     * - false: 静态编码（先写所有 key，再写所有 value）
+     */
+    public __dynamic?: boolean;
+
+    /**
      * 创建一个可序列化对象
      *
      * @param serializableName - 对象的类名（可选）
+     * @param dynamic - 是否为动态对象（可选，默认 true）
      */
-    constructor(serializableName?: string) {
+    constructor(serializableName?: string, dynamic?: boolean) {
         this.__class = serializableName;
+        this.__dynamic = dynamic;
     }
 
     /**
