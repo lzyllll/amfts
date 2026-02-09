@@ -8,7 +8,7 @@ export default defineConfig({
             entry: resolve(__dirname, 'src/index.ts'),
             name: 'AMF',
             fileName: 'amf',
-            formats: ['es', 'umd']
+            formats: ['es']
         },
         sourcemap: true
     },

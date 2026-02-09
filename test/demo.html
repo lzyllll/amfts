@@ -5,17 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMF-TS Browser Demo</title>
-    <script src="../dist/amf.umd.js"></script>
 </head>
 
 <body>
     <h1>AMF-TS Encoding/Decoding Demo</h1>
     <div id="output" style="font-family: monospace; white-space: pre-wrap; background: #f0f0f0; padding: 10px;"></div>
 
-    <script>
-        console.log('AMF Library:', window.AMF);
-
-        const { AMFEncoder, AMFDecoder } = window.AMF;
+    <script type="module">
+        import { AMFEncoder, AMFDecoder } from '../dist/amf.js';
 
         const output = document.getElementById('output');
         function log(msg) {

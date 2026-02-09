@@ -148,9 +148,8 @@ encoder.writeObject(new ForcedTypeValue(1, AMF3.DOUBLE));
 ## 浏览器使用
 
 ```html
-<script src="dist/amf.umd.js"></script>
-<script>
-  const { AMFEncoder, AMFDecoder } = window.AMF;
+<script type="module">
+  import { AMFEncoder, AMFDecoder } from '../dist/amf.js';
   
   const encoder = new AMFEncoder();
   encoder.writeObject({ hello: 'world' });
@@ -166,6 +165,5 @@ npm run build
 ```
 
 输出文件：
-- `dist/amf.umd.js` - 浏览器 script 标签使用
-- `dist/amf.mjs` - ES Module
+- `dist/amf.js` - ES Module
 - `dist/index.d.ts` - TypeScript 类型定义

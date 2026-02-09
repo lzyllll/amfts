@@ -3,13 +3,12 @@
     "version": "1.0.0",
     "description": "AMF3 implementation for browser and nodejs in TypeScript",
     "type": "module",
-    "main": "dist/amf.umd.js",
-    "module": "dist/amf.mjs",
+    "main": "dist/amf.js",
+    "module": "dist/amf.js",
     "types": "dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/amf.mjs",
-            "require": "./dist/amf.umd.js",
+            "import": "./dist/amf.js",
             "types": "./dist/index.d.ts"
         }
     },
