@@ -28,6 +28,14 @@
         "actionscript",
         "typescript"
     ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lzyllll/amfts.git"
+    },
+    "bugs": {
+        "url": "https://github.com/lzyllll/amfts/issues"
+    },
+    "homepage": "https://github.com/lzyllll/amfts#readme",
     "author": "lzyllll",
     "license": "ISC",
     "devDependencies": {

@@ -98,7 +98,7 @@ assert(decodedUser.age === 18, 'User age matches');
 console.log('\n--- Testing Anonymous Static Object ---');
 
 // 方式1: 使用 Serializable 构造函数
-const staticObj1 = new Serializable('');
+const staticObj1 = new Serializable();
 (staticObj1 as any).__dynamic = false;
 (staticObj1 as any).name = 'static1';
 (staticObj1 as any).value = 42;

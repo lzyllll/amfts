@@ -1,5 +1,7 @@
 ## AMF.js (TypeScript)
 
+[![GitHub](https://img.shields.io/badge/GitHub-amfts-blue)](https://github.com/lzyllll/amfts)
+
 一个基于 TypeScript 的 AMF 序列化库，支持 **浏览器** 和 **Node.js** 环境，当前编码器/解码器聚焦 **AMF3**。
 
 ## 特性
