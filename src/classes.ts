@@ -130,9 +130,9 @@ export class Serializable {
      * @param serializableName - 对象的类名（可选）
      * @param dynamic - 是否为动态对象（可选，默认 true）
      */
-    constructor(serializableName: string = '', dynamic: boolean = true) {
-        this.__class = serializableName;
-        this.__dynamic = dynamic;
+    constructor(serializableName?: string, dynamic?: boolean) {
+        this.__class = serializableName ?? '';
+        this.__dynamic = dynamic ?? true;
     }
 
     /**

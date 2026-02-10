@@ -243,12 +243,11 @@ export class AMFDecoder extends Reader {
             return extObj;
         }
 
-        // 处理普通对象（可能带类名）  
+        // 处理普通对象（可能带类名）  ;
         const result = new Serializable(
-            trait.name || undefined, trait.dynamic || true
+            trait.name, trait.dynamic
         ) as Record<string, any>;
         this.amf3ObjectReferences.push(result);
-
         for (let i = 0; i < trait.staticFields.length; i++) {
             const field = trait.staticFields[i];
             result[field] = this.decode();

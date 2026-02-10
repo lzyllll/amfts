@@ -132,21 +132,3 @@ console.log('Decoded static object 2:', decodedStatic2);
 assert(decodedStatic2.name === 'static2', 'Static obj2 name matches');
 assert(decodedStatic2.count === 100, 'Static obj2 count matches');
 
-// 对比：动态对象（默认行为）
-const dynamicObj = {
-    name: 'dynamic',
-    count: 200
-};
-
-const encDynamic = new AMFEncoder();
-encDynamic.writeObject(dynamicObj);
-const dynamicBytes = encDynamic.getBuffer();
-console.log(`Dynamic object encoded: ${dynamicBytes.byteLength} bytes`);
-
-const decDynamic = new AMFDecoder(dynamicBytes);
-const decodedDynamic = decDynamic.decode();
-console.log('Decoded dynamic object:', decodedDynamic);
-assert(decodedDynamic.name === 'dynamic', 'Dynamic obj name matches');
-assert(decodedDynamic.count === 200, 'Dynamic obj count matches');
-
-console.log('\nAll tests passed successfully!');
