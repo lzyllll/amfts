@@ -1,6 +1,6 @@
 {
     "name": "amf-ts",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "AMF3 implementation for browser and nodejs in TypeScript",
     "type": "module",
     "main": "dist/amf.js",
