@@ -109,7 +109,7 @@ export class AMFDecoder extends Reader {
     /**
      * 读取 AMF3 字符串
      * 
-     * todo 字符串过长时，u29 不
+     * todo 字符串过长时可能有bug?  当前读长读，用的是u29的方式
      */
     private readAMF3String(): string {
         const header = this.readAMFHeader();
@@ -243,7 +243,10 @@ export class AMFDecoder extends Reader {
             return extObj;
         }
 
-        const result = new Serializable(trait.name || undefined) as Record<string, any>;
+        // 处理普通对象（可能带类名）  
+        const result = new Serializable(
+            trait.name || undefined, trait.dynamic || true
+        ) as Record<string, any>;
         this.amf3ObjectReferences.push(result);
 
         for (let i = 0; i < trait.staticFields.length; i++) {

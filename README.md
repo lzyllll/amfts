@@ -17,6 +17,7 @@ npm install amf-ts
 
 或者本地安装：
 ```bash
+npm pack
 npm install /path/to/amf-ts-1.0.0.tgz
 ```
 
@@ -127,7 +128,7 @@ const obj2 = new Serializable('', false);
 obj2.name = 'test';
 
 // 或者直接设置属性
-const obj3 = { name: 'test', __dynamic: false };
+const obj3 = { name: 'test', __dynamic: false,__class:'abc' };
 ```
 
 ## Externalizable 对象
